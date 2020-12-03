@@ -1,0 +1,2 @@
+# BlogScript
+nodejs,hexo
