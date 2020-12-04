@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  <meta name=referrer content=never>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>MySQL从入门到放弃(二) -- 表 | Martin Li&#39;s Personal Website - 李杨的个人站点</title>
+  <meta name="description" content="数据库表的增删改创建数据库表注:  CHAR列的长度固定为创建表时声明的长度。长度可以为从0到255的任何值。当保存CHAR值时，在它们的右边填充空格以达到指定的长度。当检索到CHAR值时，尾部的空格被删除掉，所以，我们在存储时字符串右边不能有空格，即使有，查询出来后也会被删除。VARCHAR列中的值为可变长字符串, 同CHAR对比，VARCHAR值保存时只保存需要的字符数，另加一个字节来记录长度">
+<meta name="keywords" content="MySQL,数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL从入门到放弃(二) -- 表">
+<meta property="og:url" content="http://luckymartinlee.github.io/2016/05/13/mysql_1-2/index.html">
+<meta property="og:site_name" content="Martin Li&#39;s Personal Website - 李杨的个人站点">
+<meta property="og:description" content="数据库表的增删改创建数据库表注:  CHAR列的长度固定为创建表时声明的长度。长度可以为从0到255的任何值。当保存CHAR值时，在它们的右边填充空格以达到指定的长度。当检索到CHAR值时，尾部的空格被删除掉，所以，我们在存储时字符串右边不能有空格，即使有，查询出来后也会被删除。VARCHAR列中的值为可变长字符串, 同CHAR对比，VARCHAR值保存时只保存需要的字符数，另加一个字节来记录长度">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-05-09T00:49:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL从入门到放弃(二) -- 表">
+<meta name="twitter:description" content="数据库表的增删改创建数据库表注:  CHAR列的长度固定为创建表时声明的长度。长度可以为从0到255的任何值。当保存CHAR值时，在它们的右边填充空格以达到指定的长度。当检索到CHAR值时，尾部的空格被删除掉，所以，我们在存储时字符串右边不能有空格，即使有，查询出来后也会被删除。VARCHAR列中的值为可变长字符串, 同CHAR对比，VARCHAR值保存时只保存需要的字符数，另加一个字节来记录长度">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://luckymartinlee.github.io/2016/05/13/mysql_1-2/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Martin Li&#39;s Personal Website - 李杨的个人站点" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/programmer.png" type="image/x-icon">
+  
+
+  
+    <link rel="icon" type="image/png" sizes="32x32" href="/programmer_32.png">
+  
+
+  
+    <link rel="icon" type="image/png" sizes="16x16" href="/programmer_16.png">
+  
+
+  <!-- font-awesome CSS -->
+  <!-- <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  
+<div style="display:none"><img src="/programmer_300.png"" /></div>
+
+<header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="http://luckymartinlee.github.io" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Martin Li</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">后端开发工程师，前端技术爱好者</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 中国 上海</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about active">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于我</span>
+          </a>
+        </li>
+        
+      </ul>
+
+    
+
+
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/541079843" target="_blank" title="Github" ><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" ><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+
+
+
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/ES/" style="font-size: 13.33px;">ES</a> <a href="/tags/Elasticsearch/" style="font-size: 13.33px;">Elasticsearch</a> <a href="/tags/Git/" style="font-size: 13px;">Git</a> <a href="/tags/Hadoop/" style="font-size: 13.33px;">Hadoop</a> <a href="/tags/Java/" style="font-size: 13px;">Java</a> <a href="/tags/Linux/" style="font-size: 13px;">Linux</a> <a href="/tags/MapReduce/" style="font-size: 13px;">MapReduce</a> <a href="/tags/MongoDB/" style="font-size: 13.33px;">MongoDB</a> <a href="/tags/MySQL/" style="font-size: 13.67px;">MySQL</a> <a href="/tags/YARN/" style="font-size: 13px;">YARN</a> <a href="/tags/大数据/" style="font-size: 13.33px;">大数据</a> <a href="/tags/搜索引擎/" style="font-size: 13.33px;">搜索引擎</a> <a href="/tags/数据库/" style="font-size: 14px;">数据库</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/22/mysql-2-1/" class="title">MySQL查询优化(一)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-22T10:45:50.000Z" itemprop="datePublished">2018-05-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/13/hadoop-1-4/" class="title">Hadoop从入门到放弃(四) -- YARN</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-13T07:15:21.000Z" itemprop="datePublished">2018-05-13</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/09/hadoop-1-3/" class="title">Hadoop从入门到放弃(三) -- MapReduce</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-09T07:15:40.000Z" itemprop="datePublished">2018-05-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/04/hadoop-1-2/" class="title">Hadoop从入门到放弃(二) -- HDFS</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-04T07:15:45.000Z" itemprop="datePublished">2018-05-04</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/05/02/hadoop_1-1/" class="title">Hadoop从入门到放弃(一) -- 基础概念</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-05-02T00:47:04.000Z" itemprop="datePublished">2018-05-02</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-mysql_1-2" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MySQL从入门到放弃(二) -- 表
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2016/05/13/mysql_1-2/" class="article-date">
+	  <time datetime="2016-05-13T05:31:56.000Z" itemprop="datePublished">2016-05-13</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/MySQL/">MySQL</a>, <a class="article-tag-link" href="/tags/数据库/">数据库</a>
+  </span>
+
+
+        
+
+	<span class="article-read hidden-xs">
+    	<i class="icon icon-eye-fill" aria-hidden="true"></i>
+    	<span id="/2016/05/13/mysql_1-2/" class="leancloud_visitors"  data-flag-title="MySQL从入门到放弃(二) -- 表">0</span>
+    </span>
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2016/05/13/mysql_1-2/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <h2 id="数据库表的增删改"><a href="#数据库表的增删改" class="headerlink" title="数据库表的增删改"></a>数据库表的增删改</h2><h3 id="创建数据库表"><a href="#创建数据库表" class="headerlink" title="创建数据库表"></a>创建数据库表</h3><p><strong>注</strong>:</p>
+<ol>
+<li><p>CHAR列的长度固定为创建表时声明的长度。长度可以为从0到255的任何值。当保存CHAR值时，在它们的右边填充空格以达到指定的长度。当检索到CHAR值时，尾部的空格被删除掉，所以，我们在存储时字符串右边不能有空格，即使有，查询出来后也会被删除。VARCHAR列中的值为可变长字符串, 同CHAR对比，VARCHAR值保存时只保存需要的字符数，另加一个字节来记录长度(如果列声明的长度超过255，则使用两个字节),VARCHAR值保存时不进行填充。当值保存和检索时尾部的空格仍保留，符合标准SQL.</p>
+</li>
+<li><p>BINARY和VARBINARY类型类似于CHAR和VARCHAR类型，但是不同的是，它们存储的不是字符字符串，而是二进制串. 保存BINARY值时，在它们右边填充0x00(零字节)值以达到指定长度。取值时不删除尾部的字节; 对于VARBINARY，插入时不填充字符，选择时不裁剪字节.</p>
+</li>
+<li><p>长度限制:<br>CHAR、VARCAHR的长度是指字符的长度，例如CHAR[3]则只能放字符串”123”，如果插入数据”1234”，则从高位截取，变为”123”。 VARCAHR同理。<br>TINYINT、SMALLINT、MEDIUMINT、INT和BIGINT的长度，其实和数据的大小无关！Length指的是显示宽度;<br>FLOAT、DOUBLE和DECIMAL的长度指的是全部数位（包括小数点后面的），例如DECIMAL(4,1)指的是全部位数为4，小数点后1位，如果插入1234，则查询的数据是999.9;</p>
+</li>
+<li><p>BLOB, TEXT, GEOMETRY or JSON 不能有默认值.</p>
+</li>
+<li><p>FULLTEXT 索引仅可用于 MyISAM 表, 为 CHAR, VARCHAR, TEXT 列 创建全文索引.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 一般create table 语句</span></span><br><span class="line">CREATE TABLE IF NOT EXISTS `users` (</span><br><span class="line">     `id` INT(11) UNSIGNED NOT NULL [PRIMARY KEY] AUTO_INCREMENT COMMENT <span class="string">'用户id'</span>, </span><br><span class="line">     `name` VARCHAR(20) NOT NULL DEFAULT <span class="string">''</span> COMMENT <span class="string">'姓名'</span>,</span><br><span class="line">     `sex` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT <span class="string">'性别'</span>,</span><br><span class="line">     `age` TINYINT(2) UNSIGNED NOT NULL DEFAULT 1 COMMENT <span class="string">'年龄'</span>, </span><br><span class="line">     `address` TEXT(500) NOT NULL COMMENT <span class="string">'地址'</span>,</span><br><span class="line">     PRIMARY KEY (`id`) COMMENT <span class="string">'主键'</span>,</span><br><span class="line">     INDEX `age_idx` (`age`) COMMENT <span class="string">'普通索引'</span>,</span><br><span class="line">     UNIQUE `name_idx`(`name`(20)) COMMENT <span class="string">'唯一索引'</span>,</span><br><span class="line">     FULLTEXT `address` (`address`) COMMENT <span class="string">'全文索引'</span></span><br><span class="line">) ENGINE = MyISAM DEFAULT CHARSET utf8 COLLATE utf8_general_ci AUTO_INCREMENT=1 COMMENT <span class="string">'用户信息表'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. create table like 参照已有表的定义，来定义新的表</span></span><br><span class="line">CREATE TABLE IF NOT EXISTS `users_like` LIKE `users`;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 根据select 的结果集来创建表</span></span><br><span class="line">CREATE TABLE IF NOT EXISTS `user_select` AS SELECT `id`, `name` FROM `users`;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="删除数据库表"><a href="#删除数据库表" class="headerlink" title="删除数据库表"></a>删除数据库表</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP DATABASE `users`;</span><br></pre></td></tr></table></figure>
+<h3 id="修改表自增起始ID"><a href="#修改表自增起始ID" class="headerlink" title="修改表自增起始ID"></a>修改表自增起始ID</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE `users` AUTO_INCREMENT=2;</span><br></pre></td></tr></table></figure>
+<h3 id="查看数据库表的列表"><a href="#查看数据库表的列表" class="headerlink" title="查看数据库表的列表"></a>查看数据库表的列表</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW TABLES;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://luckymartinlee.github.io/2016/05/13/mysql_1-2/" title="MySQL从入门到放弃(二) -- 表" target="_blank" rel="external">http://luckymartinlee.github.io/2016/05/13/mysql_1-2/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<!-- <div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="http://luckymartinlee.github.io" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="http://luckymartinlee.github.io" target="_blank"><span class="text-dark">Martin Li</span><small class="ml-1x">后端开发工程师，前端技术爱好者</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div> -->
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zNTc5Ni8xMjMzMg==">
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+      
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2016/05/20/mysql_1-3/" title="MySQL从入门到放弃(三) -- 字段"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2016/05/10/mysql_1-1/" title="MySQL从入门到放弃(一) -- 库"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="wechat,qq,qzone,weibo,linkedin,facebook,twitter" data-mobile-sites="wechat,qq,qzone,weibo"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+<!--
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/541079843" target="_blank" title="Github" ><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" ><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+-->
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+        <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+    
+    
+        
+
+
+<!-- custom analytics part create by xiamo -->
+<script src="https://cdn1.lncld.net/static/js/av-min-1.2.1.js"></script>
+<script>
+AV.init({
+  appId: 'M91o0ht1SkDPElWjppEk1vP3-gzGzoHsz',
+  appKey: 'JyI4oMHuThg8NUNTB9NgN5C3'
+});
+
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+		var visitors= $('.leancloud_visitors');
+		query.greaterThanOrEqualTo("time", 0);		
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {				
+					return;
+				}
+				var data = results;
+				visitors.each(function(){
+					var url = $(this).attr('id').trim();					
+					for (var i = 0; i < data.length; i++) {
+						var object = data[i];
+						var content = object.get('time');
+						var _url = object.get('url')
+						if(url == _url){
+							$(this).text(content);
+						}
+					}
+				})
+				
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else {
+		showTime(Counter);
+	}
+}); 
+</script>
+
+    
+    
+        
+    
+<script defer type="text/javascript">
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+
+    if (typeof LivereTower === 'function') { return; }
+
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+
+    
+    
+
+
+
+</body>
+</html>

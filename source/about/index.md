@@ -20,22 +20,22 @@ sidebar: none
 
 
 ### Skills
-&ensp;&ensp;Java: ★★★★☆
+&ensp;&ensp;Python: ★★★★☆
 &ensp;&ensp;Scala: ★★★★☆
 &ensp;&ensp;PHP: ★★★★☆
+&ensp;&ensp;Java: ★★★★☆
+&ensp;&ensp;Spark: ★★★★☆
+&ensp;&ensp;Solr: ★★★★☆
+&ensp;&ensp;Elasticsearch: ★★★★☆
 &ensp;&ensp;MySQL: ★★★★☆
 &ensp;&ensp;MongoDB: ★★★★☆
-&ensp;&ensp;Elasticsearch: ★★★★☆
-&ensp;&ensp;Spark: ★★★★☆
+&ensp;&ensp;Hadoop: ★★★☆☆
 &ensp;&ensp;Docker: ★★★★☆
 &ensp;&ensp;Git/SVN: ★★★★☆
 &ensp;&ensp;Nginx: ★★★★☆
 &ensp;&ensp;NodeJs: ★★★☆☆
-&ensp;&ensp;Solr: ★★★☆☆
-&ensp;&ensp;Python: ★★★☆☆
-&ensp;&ensp;Hadoop: ★★★☆☆
-&ensp;&ensp;Javascript: ★★☆☆☆
-&ensp;&ensp;Html+Css: ★★☆☆☆
+&ensp;&ensp;Javascript: ★★★☆☆
+&ensp;&ensp;Html+Css: ★★★☆☆
 
 ### Works
 &ensp;&ensp;[Global China Law](https://www.globalchinalaw.com)
@@ -48,6 +48,7 @@ sidebar: none
 
 ### Contacts
 Email:
-&ensp;&ensp;liyang541079843@gmail.com
+&ensp;&ensp;lucky.martin.lee@gmail.com
+&ensp;&ensp;541079843@qq.com
 Wechat:
-&ensp;&ensp;![](/martin_photo/martin_wechat.png)
+&ensp;&ensp;![](/images/martin_wechat.png)
