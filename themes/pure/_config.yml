@@ -172,10 +172,10 @@ profile:
   avatar: images/avatar.jpg
   gravatar: # Gravatar email address, if you enable Gravatar, your avatar config will be overriden
   author: Martin Li
-  author_title: 技术主管，大数据及后端研发高级工程师
+  author_title: 技术主管，大数据及后端高级研发工程师
   author_description: 个人简介。
   location: 中国 上海
-  follow: http://luckymartinlee.github.io
+  follow: https://luckymartinlee.github.io
   #follow: https://github.com/cofess
   # Social Links
   social:

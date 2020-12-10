@@ -14,7 +14,7 @@ sidebar: none
 
 &ensp;&ensp;I have a Bachelor degree, and once worked for Iflytek CO.,LTD. (科大讯飞) in Hefei AnHui as a senior software engineer.
 
-&ensp;&ensp;I am a software developer focusing on web technology, big data and a strong advocate and believer of Free Software. Now I am employed by LexisNexis (律商联讯) as a PHP/Java/Spark engineer.
+&ensp;&ensp;I am a software developer focusing on web technology, big data and a strong advocate and believer of Free Software. Now I am employed by LexisNexis (律商联讯) as a Manager Software Engineering.
 
 &ensp;&ensp;In my spare time, I have broad interests like many other young people. I like reading book, exchanging with other people in the forum on line, watching movie and taking a leisurely walk outdoors.
 
