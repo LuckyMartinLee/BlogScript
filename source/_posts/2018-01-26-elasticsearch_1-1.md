@@ -3,8 +3,6 @@ title: Elasticsearch从入门到放弃(一) -- 基本概念
 date: 2018-01-26 15:23:08
 tags:
 - Elasticsearch
-- ES
-- 数据库
 ---
 
 ## 相关概念

@@ -3,9 +3,6 @@ title: Elasticsearch从入门到放弃(二) -- 零基础环境搭建
 date: 2018-01-28 9:33:35
 tags:
 - Elasticsearch
-- ES
-- 数据库
-- 搜索引擎
 ---
 本文主要讲述 Linux 虚拟机环境下 Elasticsearch 5.5 版本的安装。安装 Elasticsearch 之前，请确保你的机器 Java 8 环境已经搭建好，保证环境变量 JAVA_HOME 设置正确。如你还没有安装好 JAVA 8 环境，请参考[linux系统中JAVA环境搭建](/2017/11/04/java_1-1/)
 
