@@ -173,3 +173,63 @@ Thread.join(1000);
 Thread.yeild();
 ```
 
+
+
+### 线程同步
+
+#### synchronized
+
+``` java
+// synchronized 同步方法
+
+// synchronized 同步代码块
+```
+
+synchronized 同步静态方法与同步非静态方法的区别
+
+#### lock
+
+lock是接口，常用的是 ReentrantLock 重入锁
+
+```java
+// ReentrantLock 重入锁
+```
+
+synchronized 与 ReentrantLock 比较
+
+1. synchronized  是关键字，jvm 负责处理。ReentrantLock 是类，由 jdk 提供
+
+### JUC
+
+java.util.concurrent : java 1.5 提供的 java 并发开发工具包
+
+### 锁
+
+### Volatile 关键字
+
+
+
+### 递归
+
+
+
+
+
+### 线程池
+
+```java
+ public ThreadPoolExecutor(
+     int corePoolSize, // 核心线程数，常驻线程数
+     int maximumPoolSize, // 线程池最大线程数
+     long keepAliveTime, // 动态线程空闲存活最大时间
+     TimeUnit unit, // 动态线程空闲存活最大时间单位，超过时间任空闲，线程被销毁
+     BlockingQueue<Runnable> workQueue, // 线程任务等待队列，被添加到线程池中，但尚未被执行的任务
+     ThreadFactory threadFactory, // 线程工厂类，用于创建线程
+     RejectedExecutionHandler handler // 拒绝策略；当任务太多来不及处理时，如何拒绝任务。有下面四种策略
+     							   // AbortPolicy ：超过队列长度，丢弃任务，抛异常
+     							   // DiscardPolicy ：超过队列长度，丢弃任务，但不抛异常
+     							   // DiscardOldestPolicy ：超过队列长度，新任务与队列中最前面的任务竞争线程，竞争失败者，丢弃
+     							   // CallerRunsPolicy ：超过队列长度，主线程参与执行任务，
+ )
+```
+
